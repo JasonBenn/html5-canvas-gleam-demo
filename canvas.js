@@ -1,14 +1,12 @@
 var ctx = document.getElementById('gleam').getContext('2d');
 
-ctx.font = '4em Helvetica' // Maven Pro
+ctx.font = '4em Helvetica'
 
 var hue = 0,
-    i   = 0,
     phrase = 'CLINKLE',
     letterSpacing = 20,
     initialXPos = ((ctx.canvas.width - (ctx.measureText(phrase).width + (phrase.length - 1) * letterSpacing)) / 2),
-    length = phrase.length,
-    height = ctx.canvas.height/2;
+    yPos = ctx.canvas.height/2;
 
 ctx.fillStyle = 'rgba(0, 0, 0, 1)';
 drawBackground()
@@ -21,11 +19,9 @@ setInterval(function() {
 setInterval(drawBackground, 150)
 
 function gleam() {
-  var xPos = initialXPos
-  for (var n = 0; n < length; n++) {
-    setTimeout(draw.bind(null, phrase[n], xPos, height), 100 * n)
-    xPos += ctx.measureText(phrase[n]).width + letterSpacing
-  }
+  eachLetter(function(letter, xPos, index) {
+    setTimeout(draw.bind(null, letter, xPos, yPos), 100 * index)
+  })
 }
 
 function draw(text, x, y) {
@@ -43,9 +39,15 @@ function drawBackground() {
   ctx.lineWidth = 1
   ctx.strokeStyle = 'grey'
 
-  var xPos = initialXPos
+  eachLetter(function(letter, xPos) {
+    ctx.strokeText(letter, xPos, yPos);
+  })
+}
+
+function eachLetter(callback) {
+  var xPos = initialXPos;
   phrase.split('').forEach(function(letter, index) {
-    ctx.strokeText(letter, xPos, height);
+    callback(letter, xPos, index)
     xPos += ctx.measureText(letter).width + letterSpacing
   })
 }
