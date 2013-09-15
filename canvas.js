@@ -1,15 +1,16 @@
 var ctx = document.getElementById('gleam').getContext('2d');
 
 ctx.font = '4em Helvetica' // Maven Pro
-ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-blackOut()
-ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
 
 var hue = 0,
     i   = 0,
     phrase = 'CLINKLE',
     length = phrase.length,
     height = ctx.canvas.height/2;
+
+ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+blackOut()
+ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
 
 setInterval(function() {
   gleam();
@@ -43,7 +44,6 @@ function blackOut() {
 function redrawText() {
   ctx.lineWidth = 1
   ctx.strokeStyle = 'grey'
-  var phrase = 'CLINKLE'
   var xPos = ((ctx.canvas.width - ctx.measureText(phrase).width - 200) / 2)
   phrase.split('').forEach(function(letter, index) {
     ctx.strokeText(letter, xPos, height);
